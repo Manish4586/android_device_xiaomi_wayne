@@ -24,10 +24,15 @@
 # Inherit device configuration
 $(call inherit-product, device/xiaomi/wayne/device.mk)
 
-# Inherit some common stuff from Project-Awaken
-AWAKEN_BUILD_TYPE := OFFICIAL
-$(call inherit-product, vendor/awaken/config/common.mk)
-$(call inherit-product, vendor/awaken/config/gsm.mk)
+# Inherit from those products. Most specific first.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+
+# Define first api level
+$(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_o_mr1.mk)
+
+# Inherit aosp product configuration
+$(call inherit-product, vendor/aosp/config/common.mk)
 
 # Gapps
 USE_GAPPS := true
@@ -42,12 +47,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_o_mr1.mk
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRIVATE_BUILD_DESC="wayne-user 9 PKQ1.180904.001 V10.3.4.0.PDCCNXM release-keys"
 
+# Maintainer
+ROHIE_MAINTAINER := Manish4586
+ROHIE_BUILD_TYPE := OFFICIAL
+
 # Density
-TARGET_SCREEN_DENSITY := 400
+TARGET_SCREEN_DENSITY := 420
 
 # Device identifier
 PRODUCT_BRAND := Xiaomi
 PRODUCT_MANUFACTURER := Xiaomi
-PRODUCT_NAME := awaken_wayne
+PRODUCT_NAME := aosp_wayne
 PRODUCT_DEVICE := wayne
 PRODUCT_MODEL := MI 6X
